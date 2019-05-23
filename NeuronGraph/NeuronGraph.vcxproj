@@ -76,6 +76,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,16 +117,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChainList.h" />
+    <ClInclude Include="Dataset.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Neuron.h" />
     <ClInclude Include="NeuronGraph.h" />
-    <ClInclude Include="Optimizer.h" />
+    <ClInclude Include="Neurons\Neuron.h" />
+    <ClInclude Include="Neurons\NeuronADD.h" />
+    <ClInclude Include="Neurons\NeuronADELTA2.h" />
+    <ClInclude Include="Neurons\NeuronAL2.h" />
+    <ClInclude Include="Neurons\NeuronConstant.h" />
+    <ClInclude Include="Neurons\NeuronFC.h" />
+    <ClInclude Include="Neurons\NeuronVariable.h" />
+    <ClInclude Include="Normalized_Initializer.h" />
+    <ClInclude Include="Optimizer\Optimizer.h" />
+    <ClInclude Include="Optimizer\SGD_Optimizer.h" />
+    <ClInclude Include="Trainable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChainList.cpp" />
+    <ClCompile Include="Dataset.cpp" />
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Neuron.cpp" />
     <ClCompile Include="NeuronGraph.cpp" />
-    <ClCompile Include="Optimizer.cpp" />
+    <ClCompile Include="Neurons\Neuron.cpp" />
+    <ClCompile Include="Neurons\NeuronADD.cpp" />
+    <ClCompile Include="Neurons\NeuronADELTA2.cpp" />
+    <ClCompile Include="Neurons\NeuronAL2.cpp" />
+    <ClCompile Include="Neurons\NeuronConstant.cpp" />
+    <ClCompile Include="Neurons\NeuronFC.cpp" />
+    <ClCompile Include="Neurons\NeuronVariable.cpp" />
+    <ClCompile Include="Normalized_Initializer.cpp" />
+    <ClCompile Include="Optimizer\Optimizer.cpp" />
+    <ClCompile Include="Optimizer\SGD_Optimizer.cpp" />
+    <ClCompile Include="Trainable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
