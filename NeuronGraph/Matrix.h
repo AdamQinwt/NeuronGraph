@@ -1,6 +1,9 @@
 #pragma once
 #include"Globals.h"
 #define FOR_MAT for(int i=0;i<size;i++)
+#define MAT_AT2(j,i) dp.m[j].d[i]//获取对应的值
+#define MAT_AT3(k,j,i) dp.m[k].m[j].d[i]//获取对应的值
+#define MAT_AT4(l,k,j,i) dp.m[l].m[k].m[j].d[i]//获取对应的值
 class Matrix
 {
 private:
@@ -43,9 +46,15 @@ public:
 	void Ddelta2(const Matrix& a, const Matrix& b, const double dout,const double x);	//x||(a-b)||^2的反向
 	void square();	//this=this*this
 	void inc(const Matrix& a,const double x=1);	//this+=xa，反向用xcopy实现
+	void incSqr(const Matrix& a);	//this+=a*a
+	void divideAndSqrt(const double epsilon, const double delta, const Matrix& r, const Matrix& g);	//this=epsilon/(delta+sqrt(r))*g
+	void divideAndSqrt2(const double epsilon, const double delta, const Matrix& r, const Matrix& g);	//this=epsilon/sqrt(delta+r)*g
 	void inc(const double a=0);	//this+=a
+	void kinc2(const double k1, const double k2, const Matrix& b);	//this=k1*this+k2*b*b
+	void mul(const double a = 1);	//this*=a
 	void copy(const Matrix& a);	//this=a
 	void xcopy(const Matrix& a,const double x=1);	//this=xa
+	void getAdamDelta(Matrix& s,Matrix& r, const Matrix& g,const double _ro1, const double _ro2, const double ro1, const double ro2,const double eps,const double del );//直接计算adam optimizer结果
 	void assignTo(const Matrix* a);	//使未进行空间分配的this的数据地址与已分配空间的a相同
 	//static bool Connect(Matrix& a, Matrix& b);		//连接时分配空间，同时返回空间是否由a分配
 	void Print();

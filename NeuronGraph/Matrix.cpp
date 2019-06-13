@@ -110,14 +110,14 @@ void Matrix::xcopy(const Matrix& a, const double x)	//this=xa
 	{
 		FOR_MAT
 		{
-			data[i] = x * a.data[i];
+			data[i] = a.data[i];
 		}
 	}
 	else
 	{
 		FOR_MAT
 		{
-			data[i] = a.data[i];
+			data[i] = x * a.data[i];
 		}
 	}
 }
@@ -127,8 +127,10 @@ void Matrix::matmulTrans(const Matrix& x, const Matrix& w, const Matrix& b, doub
 	for (int i = 0; i < dims[0]; i++)
 	{
 		data[i] = b.data[i];
+		//cout << "Initial data["<<i<<"]="<<data[i]<<endl;
 		for (int j = 0; j < x.dims[0]; j++)
 		{
+			//cout<< "weight["<<j<<"]["<<i<<"]="<<w.dp.m[j].d[i]<<endl;
 			data[i] += x.data[j] * w.dp.m[j].d[i];
 		}
 		data[i] = func(data[i]);
@@ -181,7 +183,7 @@ void Matrix::DL2(const Matrix& a, const double dL2, const double x)	//this=a的L2
 		a.data[i] += xx * data[i];
 	}
 }
-double Matrix::delta2(const Matrix& a, const double x)	//||(this-a)||^2
+double Matrix::delta2(const Matrix& a, const double x)	//||(this-a)||
 {
 	double sum = 0, tmp;
 	FOR_MAT
@@ -191,7 +193,7 @@ double Matrix::delta2(const Matrix& a, const double x)	//||(this-a)||^2
 	}
 	return sum*x;
 }
-void Matrix::Ddelta2(const Matrix& a, const Matrix& b,const double dout, const double x)	//x||(a-b)||^2的反向
+void Matrix::Ddelta2(const Matrix& a, const Matrix& b,const double dout, const double x)	//x||(a-b)||的反向
 {
 	double xx = 2 * dout*x;
 	FOR_MAT
@@ -208,9 +210,19 @@ void Matrix::square()	//this=this*this
 }
 void Matrix::inc(const Matrix& a, const double x)	//this+=xa
 {
-	FOR_MAT
+	if (x == 1)
 	{
-		data[i] += x * a.data[i];
+		FOR_MAT
+		{
+			data[i] += a.data[i];
+		}
+	}
+	else
+	{
+		FOR_MAT
+		{
+			data[i] += x * a.data[i];
+		}
 	}
 }
 void Matrix::inc(const double a)	//this+=a
@@ -220,9 +232,55 @@ void Matrix::inc(const double a)	//this+=a
 		data[i] += a;
 	}
 }
+void Matrix::kinc2(const double k1, const double k2, const Matrix& b)	//this=k1*this+k2*b
+{
+	FOR_MAT
+	{
+		data[i] = k1 * data[i] + k2 * b.data[i] * b.data[i];
+	}
+}
+void Matrix::incSqr(const Matrix& a)
+{
+	FOR_MAT
+	{
+		data[i] += a.data[i] * a.data[i];
+	}
+}
+void Matrix::divideAndSqrt(const double epsilon, const double delta, const Matrix& r, const Matrix& g)	//this=epsilon/(delta+sqrt(r))*g
+{
+	FOR_MAT
+	{
+		data[i] = epsilon / (delta + sqrt(r.data[i]))*g.data[i];
+	}
+}
+void Matrix::divideAndSqrt2(const double epsilon, const double delta, const Matrix& r, const Matrix& g)	//this=epsilon/sqrt(delta+r)*g
+{
+	FOR_MAT
+	{
+		data[i] = epsilon / sqrt(delta + r.data[i])*g.data[i];
+	}
+}
+void Matrix::mul(const double a)
+{
+	if (a == 1) return;
+	if (!a) Reset();
+	FOR_MAT
+	{
+		data[i] *= a;
+	}
+}
 void Matrix::copy(const Matrix& a)	//this=a
 {
 	memcpy(data, a.data, size*sizeof(double));
+}
+void Matrix::getAdamDelta(Matrix& s, Matrix& r,const Matrix& g, const double _ro1, const double _ro2, const double ro1, const double ro2, const double eps, const double del)//直接计算adam optimizer结果
+{
+	FOR_MAT
+	{
+		s.data[i] = ro1 * s.data[i] + (1 - ro1)*g.data[i];
+		r.data[i] = ro2 * r.data[i] + (1 - ro2)*g.data[i] * g.data[i];
+		data[i] = -eps * s.data[i] / (1 - ro1) / (del + sqrt(r.data[i] / (1 - ro2)));
+	}
 }
 void Matrix::assignTo(const Matrix* a)	//使未进行空间分配的this的数据地址与已分配空间的a相同
 {

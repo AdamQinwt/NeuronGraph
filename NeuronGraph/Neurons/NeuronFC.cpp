@@ -14,6 +14,11 @@ NeuronFC::NeuronFC(int _in, int _out,const char* activate):nin(_in),nout(_out)
 		act = relu;
 		dact = drelu;
 	}
+	else if (!strcmp(activate, "tanh"))
+	{
+		act = nntanh;
+		dact = dnntanh;
+	}
 	else
 	{
 		act = none;

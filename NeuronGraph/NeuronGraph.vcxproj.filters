@@ -69,6 +69,18 @@
     <ClInclude Include="Dataset.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Optimizer\AdaGrad_Optimizer.h">
+      <Filter>Optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="Optimizer\Adam_Optimizer.h">
+      <Filter>Optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="Optimizer\RMSProp_Optimizer.h">
+      <Filter>Optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="Optimizer\ConjGrad_Optimizer.h">
+      <Filter>Optimizers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix.cpp">
@@ -121,6 +133,18 @@
     </ClCompile>
     <ClCompile Include="Globals.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Optimizer\AdaGrad_Optimizer.cpp">
+      <Filter>Optimizers</Filter>
+    </ClCompile>
+    <ClCompile Include="Optimizer\Adam_Optimizer.cpp">
+      <Filter>Optimizers</Filter>
+    </ClCompile>
+    <ClCompile Include="Optimizer\RMSProp_Optimizer.cpp">
+      <Filter>Optimizers</Filter>
+    </ClCompile>
+    <ClCompile Include="Optimizer\ConjGrad_Optimizer.cpp">
+      <Filter>Optimizers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

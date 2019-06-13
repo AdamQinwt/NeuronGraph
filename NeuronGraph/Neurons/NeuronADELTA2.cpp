@@ -20,8 +20,9 @@ NeuronADELTA2::~NeuronADELTA2()
 void NeuronADELTA2::run()
 {
 	double sum = in[0]->delta2(*(in[1]),x);
-	sum *= x;
-	out->inc(sum);
+	//sum *= x;
+	//out->inc(sum);
+	out->Reset(sum);
 }
 void NeuronADELTA2::bp()
 {

@@ -6,7 +6,9 @@ void Dataset::fromFile()
 	{
 		x[i]->FromFile(fp);
 		ans[i]->FromFile(fp);
+		cout << "input=" << endl << "\t";
 		x[i]->Print();
+		cout << "answer=" << endl << "\t";
 		ans[i]->Print();
 	}
 }
@@ -81,8 +83,8 @@ double Dataset::DoBatch()
 	double loss = 0;
 	for (int i = 0; i < count; i++)
 	{
-		g->reset();
 		g->resetGrad();
+		g->reset();
 		putData();
 		g->run();
 		g->bp();

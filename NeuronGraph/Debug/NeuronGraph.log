@@ -1,2 +1,21 @@
-﻿  main.cpp
+﻿  Dataset.cpp
+  main.cpp
+  Matrix.cpp
+e:\code\c++\neurongraph\neurongraph\matrix.cpp(91): warning C4101: “i”: 未引用的局部变量
+  NeuronGraph.cpp
+  Neuron.cpp
+  NeuronADD.cpp
+  NeuronADELTA2.cpp
+  NeuronAL2.cpp
+  NeuronConstant.cpp
+  NeuronFC.cpp
+  NeuronVariable.cpp
+  Normalized_Initializer.cpp
+  AdaGrad_Optimizer.cpp
+  Adam_Optimizer.cpp
+  Optimizer.cpp
+  RMSProp_Optimizer.cpp
+  SGD_Optimizer.cpp
+  Trainable.cpp
+  正在生成代码...
   NeuronGraph.vcxproj -> E:\Code\C++\NeuronGraph\Debug\NeuronGraph.exe

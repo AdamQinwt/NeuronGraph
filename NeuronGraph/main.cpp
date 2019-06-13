@@ -1,6 +1,9 @@
 #include"Dataset.h"
 #include"Normalized_Initializer.h"
 #include"Optimizer\SGD_Optimizer.h"
+#include"Optimizer\AdaGrad_Optimizer.h"
+#include"Optimizer\RMSProp_Optimizer.h"
+#include"Optimizer\Adam_Optimizer.h"
 void train(Optimizer* opt,Dataset* d,NeuronGraph* g,int times=100,double thresh=0.01)
 {
 	int iter;
@@ -43,8 +46,11 @@ int main()
 	g->sequence[8] = new NeuronADELTA2();
 	
 	g->loss = g->sequence[8];
-	((NeuronADELTA2*)(g->loss))->x = 0.25;
-	SGD_Optimizer opt(g,0.3,0);
+	//((NeuronADELTA2*)(g->loss))->x = 0.25;
+	//SGD_Optimizer opt(g,0.3,0);
+	//AdaGrad_Optimizer opt(g);
+	//RMSProp_Optimizer opt(g);
+	Adam_Optimizer opt(g);
 
 	Neuron::connect(*(g->sequence[0]), *(g->sequence[3]), FC_IN);
 	Neuron::connect(*(g->sequence[1]), *(g->sequence[3]), FC_W);
@@ -58,7 +64,7 @@ int main()
 	//d.fromFile();
 	Normalized_Initializer init(g,3);
 	init.run();
-	train(&opt, &d, g,10000);
+	train(&opt, &d, g,10000,0.001);
 	//d.Init();
 	//g->reset();
 	//g->resetGrad();
@@ -73,5 +79,31 @@ int main()
 	d.TestBatch();
 	d.disConnect();
 	delete g;
+	/*matmulTrans Test
+	Matrix* a = new Matrix(1, 2);
+	Matrix* b = new Matrix(2, 2, 3);
+	Matrix* c = new Matrix(1, 3);
+	Matrix* z = new Matrix(1, 3);
+	a->alloc();
+	b->alloc();
+	c->alloc();
+	z->alloc();
+	z->Reset(3);
+	a->Reset(3);
+	a->data[1] = 2;
+	b->Reset(4);
+	b->MAT_AT2(0, 0) = 6;
+	b->MAT_AT2(0, 1) = 5;
+	b->MAT_AT2(0, 2) = 1;
+	b->MAT_AT2(1, 0) = 7;
+	b->MAT_AT2(1, 2) = 2;
+	c->matmulTrans(*a, *b, *z, none);
+	a->Print();
+	b->Print();
+	c->Print();
+	delete a;
+	delete b;
+	delete c;
+	delete z;*/
 	PS;
 }

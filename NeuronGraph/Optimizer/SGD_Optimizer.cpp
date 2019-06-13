@@ -8,7 +8,8 @@ void SGD_Optimizer::run()
 		if (g->sequence[i]->isTrain)
 		{
 			//Matrix::add(g->sequence[i]->arg.m[OPT_DELTA], g->sequence[i]->arg.m[OPT_DELTA], g->sequence[i]->arg.m[OPT_GRAD],momentum,)
-			g->sequence[i]->arg.m[OPT_DELTA].inc(g->sequence[i]->arg.m[OPT_GRAD], -learningRate/g->sequence[i]->nbp);
+			//g->sequence[i]->arg.m[OPT_DELTA].inc(g->sequence[i]->arg.m[OPT_GRAD], -learningRate/g->sequence[i]->nbp);
+			g->sequence[i]->arg.m[OPT_DELTA].xcopy(g->sequence[i]->arg.m[OPT_GRAD], -learningRate / g->sequence[i]->nbp);
 			g->sequence[i]->arg.m[OPT_ORIG].inc(g->sequence[i]->arg.m[OPT_DELTA]);
 			g->sequence[i]->arg.m[OPT_GRAD].Reset();
 			g->sequence[i]->nbp = 0;

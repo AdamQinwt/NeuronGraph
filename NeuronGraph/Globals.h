@@ -18,5 +18,7 @@ double sigmoid(double);
 double dsigmoid(double);
 double relu(double);
 double drelu(double);
+double nntanh(double);
+double dnntanh(double);
 double none(double);
 #endif // !GLOBALS_H
