@@ -127,7 +127,9 @@
     <ClInclude Include="Neurons\NeuronADELTA2.h" />
     <ClInclude Include="Neurons\NeuronAL2.h" />
     <ClInclude Include="Neurons\NeuronConstant.h" />
+    <ClInclude Include="Neurons\NeuronConv.h" />
     <ClInclude Include="Neurons\NeuronFC.h" />
+    <ClInclude Include="Neurons\NeuronMaxPool.h" />
     <ClInclude Include="Neurons\NeuronVariable.h" />
     <ClInclude Include="Normalized_Initializer.h" />
     <ClInclude Include="Optimizer\AdaGrad_Optimizer.h" />
@@ -150,7 +152,9 @@
     <ClCompile Include="Neurons\NeuronADELTA2.cpp" />
     <ClCompile Include="Neurons\NeuronAL2.cpp" />
     <ClCompile Include="Neurons\NeuronConstant.cpp" />
+    <ClCompile Include="Neurons\NeuronConv.cpp" />
     <ClCompile Include="Neurons\NeuronFC.cpp" />
+    <ClCompile Include="Neurons\NeuronMaxPool.cpp" />
     <ClCompile Include="Neurons\NeuronVariable.cpp" />
     <ClCompile Include="Normalized_Initializer.cpp" />
     <ClCompile Include="Optimizer\AdaGrad_Optimizer.cpp" />

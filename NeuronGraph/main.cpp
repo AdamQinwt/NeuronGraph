@@ -4,6 +4,7 @@
 #include"Optimizer\AdaGrad_Optimizer.h"
 #include"Optimizer\RMSProp_Optimizer.h"
 #include"Optimizer\Adam_Optimizer.h"
+#include"Optimizer\ConjGrad_Optimizer.h"
 void train(Optimizer* opt,Dataset* d,NeuronGraph* g,int times=100,double thresh=0.01)
 {
 	int iter;
@@ -50,7 +51,8 @@ int main()
 	//SGD_Optimizer opt(g,0.3,0);
 	//AdaGrad_Optimizer opt(g);
 	//RMSProp_Optimizer opt(g);
-	Adam_Optimizer opt(g);
+	//Adam_Optimizer opt(g);
+	ConjGrad_Optimizer opt(g, &d);
 
 	Neuron::connect(*(g->sequence[0]), *(g->sequence[3]), FC_IN);
 	Neuron::connect(*(g->sequence[1]), *(g->sequence[3]), FC_W);
@@ -64,7 +66,7 @@ int main()
 	//d.fromFile();
 	Normalized_Initializer init(g,3);
 	init.run();
-	train(&opt, &d, g,10000,0.001);
+	train(&opt, &d, g,1000,0.001);
 	//d.Init();
 	//g->reset();
 	//g->resetGrad();

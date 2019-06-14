@@ -15,6 +15,7 @@ public:
 
 	Dataset(const char* fname,NeuronGraph* _g);
 	double DoBatch();
+	double ForwardBatch();
 	void TestBatch();
 	void SetIn(int _dim, ...);
 	void SetOut(int _dim, ...);

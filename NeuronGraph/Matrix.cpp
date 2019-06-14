@@ -239,6 +239,41 @@ void Matrix::kinc2(const double k1, const double k2, const Matrix& b)	//this=k1*
 		data[i] = k1 * data[i] + k2 * b.data[i] * b.data[i];
 	}
 }
+void Matrix::kinc(const double k1, const double k2, const Matrix& b)	//this=k1*this+k2*b
+{
+	if (k2 == -1)
+	{
+		FOR_MAT
+		{
+			data[i] = k1 * data[i] - b.data[i];
+		}
+	}
+	else
+	{
+		FOR_MAT
+		{
+			data[i] = k1 * data[i] + k2 * b.data[i];
+		}
+	}
+}
+//this=k*(k1*this+k2*y)
+void Matrix::kinck(const double k, const double k1, const double k2, const Matrix& a)
+{
+	if (k2 == -1)
+	{
+		FOR_MAT
+		{
+			data[i] = k*(k1 * data[i] - a.data[i]);
+		}
+	}
+	else
+	{
+		FOR_MAT
+		{
+			data[i] = k*(k1 * data[i] + k2 * a.data[i]);
+		}
+	}
+}
 void Matrix::incSqr(const Matrix& a)
 {
 	FOR_MAT
@@ -273,6 +308,23 @@ void Matrix::copy(const Matrix& a)	//this=a
 {
 	memcpy(data, a.data, size*sizeof(double));
 }
+double Matrix::ConjGrad1(const Matrix& a, const Matrix& b)
+{
+	double r = 0;
+	for(int i=0;i<a.size;i++)
+	{
+		r += (a.data[i] - b.data[i])*a.data[i];
+	}
+	return r;
+}
+//this+=k*a
+void Matrix::inck(const double k, const Matrix& a)
+{
+	FOR_MAT
+	{
+		data[i] += k * a.data[i];
+	}
+}
 void Matrix::getAdamDelta(Matrix& s, Matrix& r,const Matrix& g, const double _ro1, const double _ro2, const double ro1, const double ro2, const double eps, const double del)//直接计算adam optimizer结果
 {
 	FOR_MAT
@@ -280,6 +332,99 @@ void Matrix::getAdamDelta(Matrix& s, Matrix& r,const Matrix& g, const double _ro
 		s.data[i] = ro1 * s.data[i] + (1 - ro1)*g.data[i];
 		r.data[i] = ro2 * r.data[i] + (1 - ro2)*g.data[i] * g.data[i];
 		data[i] = -eps * s.data[i] / (1 - ro1) / (del + sqrt(r.data[i] / (1 - ro2)));
+	}
+}
+//this=convolution
+void Matrix::conv(const Matrix& in, const Matrix& kernel, const Matrix& b, const pointPair*** p, int ksize, double(*func)(double))
+{
+	int i, j, k,l,d;
+	for (i = 0; i < dims[0]; i++)
+	{
+		for (j = 0; j < dims[1]; j++)
+		{
+			for (k = 0; k < dims[2]; k++)
+			{
+				MAT_AT3(i, j, k) = b.data[i];
+				for (l = 0; l < ksize; k++)
+				{
+					if (p[j][k][l].ax < 0) break;
+					for (d = 0; d < in.dims[0]; d++)
+					{
+						MAT_AT3(i, j, k) += in.MAT_AT3(d, p[j][k][l].ax, p[j][k][l].ay)*kernel.MAT_AT4(i, d, p[j][k][l].bx, p[j][k][l].by);
+					}
+				}
+				MAT_AT3(i, j, k) = func(MAT_AT3(i, j, k));
+			}
+		}
+	}
+}
+//this=dout, calculate db,dkernel,din
+void Matrix::dconv(const Matrix& in, const Matrix& kernel, const Matrix& b, Matrix& din, Matrix& dkernel, Matrix& db, const pointPair*** p, int ksize, double(*func)(double))
+{
+	int i, j, k, l, d;
+	double tmp;
+	for (i = 0; i < dims[0]; i++)
+	{
+		for (j = 0; j < dims[1]; j++)
+		{
+			for (k = 0; k < dims[2]; k++)
+			{
+				tmp = func(MAT_AT3(i, j, k))*MAT_AT3(i,j,k);
+				db.data[i] += tmp;
+				for (l = 0; l < ksize; k++)
+				{
+					if (p[j][k][l].ax < 0) break;
+					for (d = 0; d < in.dims[0]; d++)
+					{
+						din.MAT_AT3(d, p[j][k][l].ax, p[j][k][l].ay)+=tmp * kernel.MAT_AT4(i, d, p[j][k][l].bx, p[j][k][l].by);
+						dkernel.MAT_AT4(i,d, p[j][k][l].bx, p[j][k][l].by)+=tmp * in.MAT_AT3(d, p[j][k][l].ax, p[j][k][l].ay);
+					}
+				}
+			}
+		}
+	}
+}
+//this=max_pool(in)
+void Matrix::maxPool(const Matrix& in, const pointPair*** p, int*** maxIndx, int ksize)
+{
+	int i, j, k, l;
+	double m,tmp;
+	for (i = 0; i < dims[0]; i++)
+	{
+		for (j = 0; j < dims[1]; j++)
+		{
+			for (k = 0; k < dims[2]; k++)
+			{
+				maxIndx[i][j][k] = 0;
+				m = MAT_AT3(i, j, k);
+				for (l = 0; l < ksize; k++)
+				{
+					if (p[j][k][l].ax < 0) break;
+					tmp = in.MAT_AT3(i, p[j][k][l].ax, p[j][k][l].ay);
+					if (tmp > m)
+					{
+						maxIndx[i][j][k] = l;
+						m = tmp;
+					}
+				}
+				MAT_AT3(i, j, k) = m;
+			}
+		}
+	}
+}
+//this=dout, calculate din
+void Matrix::dmaxPool(const Matrix& din, const pointPair*** p, const int*** maxIndx)
+{
+	int i, j, k;
+	for (i = 0; i < dims[0]; i++)
+	{
+		for (j = 0; j < dims[1]; j++)
+		{
+			for (k = 0; k < dims[2]; k++)
+			{
+				din.MAT_AT3(i, p[j][k][maxIndx[j][k][i]].ax, p[j][k][maxIndx[j][k][i]].ay)+=MAT_AT3(i,j,k);
+			}
+		}
 	}
 }
 void Matrix::assignTo(const Matrix* a)	//使未进行空间分配的this的数据地址与已分配空间的a相同

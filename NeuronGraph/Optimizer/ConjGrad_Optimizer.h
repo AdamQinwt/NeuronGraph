@@ -1,5 +1,6 @@
 #pragma once
 #include "Optimizer.h"
+#include"../Dataset.h"
 class ConjGrad_Optimizer :
 	public Optimizer
 {
@@ -8,10 +9,10 @@ class ConjGrad_Optimizer :
 	const static int OPT_LAST_G = 3;
 	const static int OPT_DIRECTION = 4;
 	const static int OPT_BEST = 5;	//optimal arg
-	const static int OPT_CURRENT = 6;	//current arg
+	Dataset* data;
 public:
 	void run();
-	ConjGrad_Optimizer(NeuronGraph* _g,int search=5, double _step=0.1);
+	ConjGrad_Optimizer(NeuronGraph* _g,Dataset* _data,int search=50, double _step=0.1);
 	~ConjGrad_Optimizer();
 };
 

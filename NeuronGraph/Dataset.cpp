@@ -92,6 +92,20 @@ double Dataset::DoBatch()
 	}
 	return loss / count;
 }
+double Dataset::ForwardBatch()
+{
+	//fromFile();
+	double loss = 0;
+	for (int i = 0; i < count; i++)
+	{
+		g->resetGrad();
+		g->reset();
+		putData();
+		g->run();
+		loss += g->loss->out->data[0];
+	}
+	return loss / count;
+}
 void Dataset::TestBatch()
 {
 	//fromFile();
