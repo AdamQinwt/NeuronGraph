@@ -134,6 +134,7 @@
     <ClInclude Include="Normalized_Initializer.h" />
     <ClInclude Include="Optimizer\AdaGrad_Optimizer.h" />
     <ClInclude Include="Optimizer\Adam_Optimizer.h" />
+    <ClInclude Include="Optimizer\ConjGradImproved_Optimizer.h" />
     <ClInclude Include="Optimizer\ConjGrad_Optimizer.h" />
     <ClInclude Include="Optimizer\Optimizer.h" />
     <ClInclude Include="Optimizer\RMSProp_Optimizer.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Normalized_Initializer.cpp" />
     <ClCompile Include="Optimizer\AdaGrad_Optimizer.cpp" />
     <ClCompile Include="Optimizer\Adam_Optimizer.cpp" />
+    <ClCompile Include="Optimizer\ConjGradImproved_Optimizer.cpp" />
     <ClCompile Include="Optimizer\ConjGrad_Optimizer.cpp" />
     <ClCompile Include="Optimizer\Optimizer.cpp" />
     <ClCompile Include="Optimizer\RMSProp_Optimizer.cpp" />

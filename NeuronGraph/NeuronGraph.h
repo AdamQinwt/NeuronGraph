@@ -4,6 +4,8 @@
 #include"Neurons/NeuronAL2.h"
 #include"Neurons/NeuronConstant.h"
 #include"Neurons/NeuronFC.h"
+#include"Neurons/NeuronCONV.h"
+#include"Neurons/NeuronMAXPOOL.h"
 #include"Neurons/NeuronVariable.h"
 class NeuronGraph
 {
@@ -13,9 +15,13 @@ public:
 	Neuron* out;
 	Neuron* ans;
 	Neuron* loss;
-	
-	int count;	//计算节点的数量
-	Neuron** sequence;	//计算图的拓扑排序
+
+	int trainableCnt;
+	Trainable** trainables;	//trainables table
+	int* trainablesIndx;	//indexes of trainables
+
+	int count;	//number of neurons in the graph
+	Neuron** sequence;	//a topological sequencing of neurons
 
 	void run();
 	void bp();
@@ -24,7 +30,13 @@ public:
 	NeuronGraph();
 	NeuronGraph(int _count);
 	~NeuronGraph();
-	void SetTrainables(const int c);	//在设置optimizer后，设置图中的可训练数据的多余存储个数
-	void GetSquence();	//在所有定义和连接完成后，计算拓扑排序
+	//set how many extra matrices are needed for each trainable matrix after the optimizer is selected
+	void SetTrainables(const int c);
+	//re-sort neurons based on topological sequencing
+	void GetSquence();
+	void SaveArgsBin(const char* name);
+	void ReadArgsBin(const char* name);
+	void SaveArgsTxt(const char* name);
+	void ReadArgsTxt(const char* name);
 };
 

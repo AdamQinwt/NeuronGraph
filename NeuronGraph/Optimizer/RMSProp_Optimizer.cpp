@@ -3,17 +3,16 @@
 void RMSProp_Optimizer::run()
 {
 	int i;
-	for (i = 0; i < g->count; i++)
+	register Trainable* p;
+	for (i = 0; i < g->trainableCnt; i++)
 	{
-		if (g->sequence[i]->isTrain)
-		{
-			g->sequence[i]->arg.m[OPT_GRAD].mul(1 / (double)g->sequence[i]->nbp);
-			g->sequence[i]->arg.m[OPT_ACC_SQR_GRAD].kinc2(ro, 1 - ro, g->sequence[i]->arg.m[OPT_GRAD]);
-			g->sequence[i]->arg.m[OPT_DELTA].divideAndSqrt2(-learningRate, _delta, g->sequence[i]->arg.m[OPT_ACC_SQR_GRAD], g->sequence[i]->arg.m[OPT_GRAD]);
-			g->sequence[i]->arg.m[OPT_ORIG].inc(g->sequence[i]->arg.m[OPT_DELTA]);
-			g->sequence[i]->arg.m[OPT_GRAD].Reset();
-			g->sequence[i]->nbp = 0;
-		}
+		p = g->trainables[i];
+		p->m[OPT_GRAD].mul(1 / (double)g->sequence[g->trainablesIndx[i]]->nbp);
+		p->m[OPT_ACC_SQR_GRAD].kinc2(ro, 1 - ro, p->m[OPT_GRAD]);
+		p->m[OPT_DELTA].divideAndSqrt2(-learningRate, _delta, p->m[OPT_ACC_SQR_GRAD], p->m[OPT_GRAD]);
+		p->m[OPT_ORIG].inc(p->m[OPT_DELTA]);
+		p->m[OPT_GRAD].Reset();
+		g->sequence[g->trainablesIndx[i]]->nbp = 0;
 	}
 }
 

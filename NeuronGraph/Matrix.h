@@ -34,17 +34,23 @@ public:
 	//_mat* operator[](int indx);
 	void Randomize(const double absRange = 1);
 	void Reset(const double v=0);	//set everything to zero
-	static void add(Matrix& a,const Matrix& b,const Matrix& c);	//a=b+c，反向由copy实现
-	static void add(Matrix& a,const Matrix& b,const Matrix& c,const double x = 1,const double y=1);	//a=xb+yc，反向由xcopy实现
-	void matmulTrans(const Matrix& x, const Matrix& w,const Matrix& b,double(*func)(double));	//this=func(xw+b)
+	//a=b+c，反向由copy实现
+	static void add(Matrix& a,const Matrix& b,const Matrix& c);
+	//a=xb+yc，反向由xcopy实现
+	static void add(Matrix& a,const Matrix& b,const Matrix& c,const double x = 1,const double y=1);
+	//this=func(xw+b)
+	void matmulTrans(const Matrix& x, const Matrix& w,const Matrix& b,double(*func)(double));
 	void DmatmulTrans(const Matrix& x, const Matrix& w, Matrix& dx, Matrix& dw, Matrix& db, const Matrix& out, double(*func)(double));	//this=func(xw+b)的反向(此时的func为func的导数)
 	void addSquare(const Matrix& a, const double x = 1);	//this=x*a*a
 	void DaddSquare(Matrix& da, const double x = 1)const;	//this=x*a*a的反向,da为结果的反向
 	//L2范数
 	double L2()const;
-	void DL2(const Matrix& a,const double dL2,const double x=1);	//this=a的L2范数*x的反向，dL2为范数的偏差
-	double delta2(const Matrix& a,const double x);	//x||(this-a)||^2
-	void Ddelta2(const Matrix& a, const Matrix& b, const double dout,const double x);	//x||(a-b)||^2的反向
+	//this=a的L2范数*x的反向，dL2为范数的偏差
+	void DL2(const Matrix& a,const double dL2,const double x=1);
+	//x||(this-a)||^2
+	double delta2(const Matrix& a,const double x);
+	//x||(a-b)||^2的反向
+	void Ddelta2(const Matrix& a, const Matrix& b, const double dout,const double x);
 	//this=this*this
 	void square();
 	//this+=xa，反向用xcopy实现
@@ -76,15 +82,19 @@ public:
 	//直接计算adam optimizer结果
 	void getAdamDelta(Matrix& s,Matrix& r, const Matrix& g,const double _ro1, const double _ro2, const double ro1, const double ro2,const double eps,const double del );
 	//this=convolution(in)
-	void conv(const Matrix& in, const Matrix& kernel, const Matrix& b, const pointPair*** p,int ksize, double(*func)(double));
+	void conv(const Matrix& in, const Matrix& kernel, const Matrix& b, pointPair*** p,int ksize, double(*func)(double));
 	//this=dout, calculate db,dkernel,din
-	void dconv(const Matrix& in, const Matrix& kernel, const Matrix& b,Matrix& din,Matrix& dkernel,Matrix& db, const pointPair*** p, int ksize, double(*func)(double));
+	void dconv(const Matrix& in, const Matrix& kernel, const Matrix& b,Matrix& din,Matrix& dkernel,Matrix& db, pointPair*** p, int ksize, double(*func)(double));
 	//this=max_pool(in)
-	void maxPool(const Matrix& in, const pointPair*** p,int*** maxIndx, int ksize);
+	void maxPool(const Matrix& in, pointPair*** p,int*** maxIndx, int ksize);
 	//this=dout, calculate din
-	void dmaxPool(const Matrix& din, const pointPair*** p,const int*** maxIndx);
+	void dmaxPool(const Matrix& din, pointPair*** p,int*** maxIndx);
 	void assignTo(const Matrix* a);	//使未进行空间分配的this的数据地址与已分配空间的a相同
 	void Print();
+	void WriteBin(FILE* fp);
+	void ReadBin(FILE* fp);
+	void WriteTxt(FILE* fp);
+	void ReadTxt(FILE* fp);
 private:
 	//递归函数定义
 	void _assignTo(matrix* m,int d,double*& offset);	//使未进行空间分配的this的数据地址与已分配空间的a相同

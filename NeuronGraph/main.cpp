@@ -5,6 +5,7 @@
 #include"Optimizer\RMSProp_Optimizer.h"
 #include"Optimizer\Adam_Optimizer.h"
 #include"Optimizer\ConjGrad_Optimizer.h"
+#include"Optimizer\ConjGradImproved_Optimizer.h"
 void train(Optimizer* opt,Dataset* d,NeuronGraph* g,int times=100,double thresh=0.01)
 {
 	int iter;
@@ -18,7 +19,7 @@ void train(Optimizer* opt,Dataset* d,NeuronGraph* g,int times=100,double thresh=
 		printf("After %d iterations, the loss is %lf.\n", iter, loss);
 		if (loss < thresh)
 		{
-			puts("Success!\n");
+			puts("Success!");
 			break;
 		}
 		opt->run();
@@ -52,7 +53,7 @@ int main()
 	//AdaGrad_Optimizer opt(g);
 	//RMSProp_Optimizer opt(g);
 	//Adam_Optimizer opt(g);
-	ConjGrad_Optimizer opt(g, &d);
+	ConjGradImproved_Optimizer opt(g, &d);
 
 	Neuron::connect(*(g->sequence[0]), *(g->sequence[3]), FC_IN);
 	Neuron::connect(*(g->sequence[1]), *(g->sequence[3]), FC_W);
@@ -63,10 +64,11 @@ int main()
 	Neuron::connect(*(g->sequence[6]), *(g->sequence[8]));
 	Neuron::connect(*(g->sequence[7]), *(g->sequence[8]));
 	d.FromFile();
-	//d.fromFile();
-	Normalized_Initializer init(g,3);
-	init.run();
-	train(&opt, &d, g,1000,0.001);
+	//Normalized_Initializer init(g,3);
+	//init.run();
+	//g->ReadArgsBin("args");
+	g->ReadArgsTxt("args.txt");
+	train(&opt, &d, g,100000,0.001);
 	//d.Init();
 	//g->reset();
 	//g->resetGrad();
@@ -80,6 +82,8 @@ int main()
 	//d.disConnect();
 	d.TestBatch();
 	d.disConnect();
+	//g->SaveArgsBin("args");
+	g->SaveArgsTxt("args.txt");
 	delete g;
 	/*matmulTrans Test
 	Matrix* a = new Matrix(1, 2);

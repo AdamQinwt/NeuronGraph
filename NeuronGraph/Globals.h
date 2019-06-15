@@ -21,4 +21,6 @@ double drelu(double);
 double nntanh(double);
 double dnntanh(double);
 double none(double);
+//average of two doubles
+double average(double a, double wa, double b, double wb);
 #endif // !GLOBALS_H

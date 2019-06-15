@@ -87,6 +87,9 @@
     <ClInclude Include="Neurons\NeuronMaxPool.h">
       <Filter>Neurons</Filter>
     </ClInclude>
+    <ClInclude Include="Optimizer\ConjGradImproved_Optimizer.h">
+      <Filter>Optimizers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="Neurons\NeuronMaxPool.cpp">
       <Filter>Neurons</Filter>
+    </ClCompile>
+    <ClCompile Include="Optimizer\ConjGradImproved_Optimizer.cpp">
+      <Filter>Optimizers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

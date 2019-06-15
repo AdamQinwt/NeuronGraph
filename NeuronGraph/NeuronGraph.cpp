@@ -46,15 +46,60 @@ NeuronGraph::~NeuronGraph()
 		delete sequence[i];
 	}
 	delete[] sequence;
+	delete[] trainables;
+	delete[] trainablesIndx;
 }
 void NeuronGraph::SetTrainables(const int c)	//在设置optimizer后，设置图中的可训练数据的多余存储个数
 {
+	trainables = new Trainable*[count];
+	trainablesIndx = new int[count];
 	for (int i = 0; i < count; i++)
 	{
-		if (sequence[i]->ty == VARIABLE) sequence[i]->arg.cnt = c;
+		if (sequence[i]->ty == VARIABLE)
+		{
+			trainablesIndx[trainableCnt] = i;
+			trainables[trainableCnt++] = &sequence[i]->arg;
+			sequence[i]->arg.cnt = c;
+		}
 	}
 }
-void NeuronGraph::GetSquence()	//在所有定义和连接完成后，计算拓扑排序
+void NeuronGraph::GetSquence()
 {
-	//
+	//TODO
+}
+void NeuronGraph::SaveArgsBin(const char* name)
+{
+	FILE* fp = fopen(name, "wb");
+	for (int i = 0; i < trainableCnt; i++)
+	{
+		trainables[i]->m[ORIG].WriteBin(fp);
+	}
+	fclose(fp);
+}
+void NeuronGraph::ReadArgsBin(const char* name)
+{
+	FILE* fp = fopen(name, "rb");
+	for (int i = 0; i < trainableCnt; i++)
+	{
+		trainables[i]->m[ORIG].ReadBin(fp);
+	}
+	fclose(fp);
+}
+void NeuronGraph::SaveArgsTxt(const char* name)
+{
+	FILE* fp = fopen(name, "w");
+	for (int i = 0; i < trainableCnt; i++)
+	{
+		trainables[i]->m[ORIG].WriteTxt(fp);
+	}
+	fclose(fp);
+}
+void NeuronGraph::ReadArgsTxt(const char* name)
+{
+	FILE* fp = fopen(name, "r");
+	for (int i = 0; i < trainableCnt; i++)
+	{
+		trainables[i]->m[ORIG].ReadTxt(fp);
+	}
+	fclose(fp);
 }

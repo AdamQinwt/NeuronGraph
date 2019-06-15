@@ -88,7 +88,7 @@ void Matrix::Reset(const double v)	//set everything to zero, or something else
 }
 void Matrix::add(Matrix& a, const Matrix& b, const Matrix& c)	//a=b+c
 {
-	int d,i;
+	int d;
 	matrix* ma=&(a.dp);
 	const matrix* mb=&(b.dp);
 	const matrix* mc=&(c.dp);
@@ -97,7 +97,8 @@ void Matrix::add(Matrix& a, const Matrix& b, const Matrix& c)	//a=b+c
 		//
 	}
 }
-void Matrix::add(Matrix& a, const Matrix& b, const Matrix& c, const double x, const double y)	//a=xb+yc
+//a=xb+yc
+void Matrix::add(Matrix& a, const Matrix& b, const Matrix& c, const double x, const double y)
 {
 	for(int i=0;i<a.size;i++)
 	{
@@ -239,7 +240,8 @@ void Matrix::kinc2(const double k1, const double k2, const Matrix& b)	//this=k1*
 		data[i] = k1 * data[i] + k2 * b.data[i] * b.data[i];
 	}
 }
-void Matrix::kinc(const double k1, const double k2, const Matrix& b)	//this=k1*this+k2*b
+//this=k1*this+k2*b
+void Matrix::kinc(const double k1, const double k2, const Matrix& b)
 {
 	if (k2 == -1)
 	{
@@ -335,7 +337,7 @@ void Matrix::getAdamDelta(Matrix& s, Matrix& r,const Matrix& g, const double _ro
 	}
 }
 //this=convolution
-void Matrix::conv(const Matrix& in, const Matrix& kernel, const Matrix& b, const pointPair*** p, int ksize, double(*func)(double))
+void Matrix::conv(const Matrix& in, const Matrix& kernel, const Matrix& b, pointPair*** p, int ksize, double(*func)(double))
 {
 	int i, j, k,l,d;
 	for (i = 0; i < dims[0]; i++)
@@ -359,7 +361,7 @@ void Matrix::conv(const Matrix& in, const Matrix& kernel, const Matrix& b, const
 	}
 }
 //this=dout, calculate db,dkernel,din
-void Matrix::dconv(const Matrix& in, const Matrix& kernel, const Matrix& b, Matrix& din, Matrix& dkernel, Matrix& db, const pointPair*** p, int ksize, double(*func)(double))
+void Matrix::dconv(const Matrix& in, const Matrix& kernel, const Matrix& b, Matrix& din, Matrix& dkernel, Matrix& db, pointPair*** p, int ksize, double(*func)(double))
 {
 	int i, j, k, l, d;
 	double tmp;
@@ -385,7 +387,7 @@ void Matrix::dconv(const Matrix& in, const Matrix& kernel, const Matrix& b, Matr
 	}
 }
 //this=max_pool(in)
-void Matrix::maxPool(const Matrix& in, const pointPair*** p, int*** maxIndx, int ksize)
+void Matrix::maxPool(const Matrix& in, pointPair*** p, int*** maxIndx, int ksize)
 {
 	int i, j, k, l;
 	double m,tmp;
@@ -413,7 +415,7 @@ void Matrix::maxPool(const Matrix& in, const pointPair*** p, int*** maxIndx, int
 	}
 }
 //this=dout, calculate din
-void Matrix::dmaxPool(const Matrix& din, const pointPair*** p, const int*** maxIndx)
+void Matrix::dmaxPool(const Matrix& din, pointPair*** p, int*** maxIndx)
 {
 	int i, j, k;
 	for (i = 0; i < dims[0]; i++)
@@ -505,4 +507,26 @@ void Matrix::Print()
 	}
 	cout << endl;*/
 	_print(&dp, 0);
+}
+void Matrix::WriteBin(FILE* fp)
+{
+	fwrite(data, sizeof(double), size, fp);
+}
+void Matrix::ReadBin(FILE* fp)
+{
+	fread(data, sizeof(double), size, fp);
+}
+void Matrix::WriteTxt(FILE* fp)
+{
+	FOR_MAT
+	{
+		fprintf(fp,"%.3lf\t",data[i]);
+	}
+}
+void Matrix::ReadTxt(FILE* fp)
+{
+	FOR_MAT
+	{
+		fscanf(fp,"%lf\t",data+i);
+	}
 }

@@ -28,3 +28,7 @@ double none(double x)
 {
 	return x;
 }
+double average(double a, double wa, double b, double wb)
+{
+	return (a * wa + b * wb)/(wa+wb);
+}

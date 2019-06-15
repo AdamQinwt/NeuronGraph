@@ -98,7 +98,7 @@ double Dataset::ForwardBatch()
 	double loss = 0;
 	for (int i = 0; i < count; i++)
 	{
-		g->resetGrad();
+		//g->resetGrad();
 		g->reset();
 		putData();
 		g->run();
