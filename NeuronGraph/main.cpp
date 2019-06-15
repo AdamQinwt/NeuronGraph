@@ -63,11 +63,12 @@ int main()
 	Neuron::connect(*(g->sequence[5]), *(g->sequence[6]), FC_B);
 	Neuron::connect(*(g->sequence[6]), *(g->sequence[8]));
 	Neuron::connect(*(g->sequence[7]), *(g->sequence[8]));
+	g->GetSquence();
 	d.FromFile();
-	//Normalized_Initializer init(g,3);
-	//init.run();
+	Normalized_Initializer init(g,3);
+	init.run();
 	//g->ReadArgsBin("args");
-	g->ReadArgsTxt("args.txt");
+	//g->ReadArgsTxt("args.txt");
 	train(&opt, &d, g,100000,0.001);
 	//d.Init();
 	//g->reset();

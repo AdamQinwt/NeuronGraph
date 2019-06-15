@@ -8,6 +8,7 @@ enum  type{ CONSTANT, VARIABLE,FC, ADD, AXPB, CONV, MAX_POOL, AX, AX2,AL,AL2,ADE
 class Neuron
 {
 public:
+	int ready;
 	//区分不同类型
 	type ty;
 	bool isTrain;	//是否可训练
@@ -20,6 +21,7 @@ public:
 
 	int nbp;	//对单个节点而言已进行反向计算的次数
 	Trainable arg;	//用于variable的额外参数
+	//pointers of previous and next neurons
 	vector<Neuron*> prev, next;
 	
 	virtual void init()=0; //初始化，包含一般的置0操作

@@ -2,6 +2,7 @@
 
 NeuronADELTA2::NeuronADELTA2():x(1)
 {
+	ready = 0;
 	ty = ADELTA2;
 	isTrain = 0;
 	isVarInput = 0;

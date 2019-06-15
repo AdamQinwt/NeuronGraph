@@ -2,6 +2,7 @@
 
 NeuronFC::NeuronFC(int _in, int _out,const char* activate):nin(_in),nout(_out)
 {
+	ready = 0;
 	ty=FC;
 	//ÉèÖÃ¼¤»îº¯Êı
 	if (!strcmp(activate, "sigmoid"))

@@ -7,6 +7,7 @@
 #include"Neurons/NeuronCONV.h"
 #include"Neurons/NeuronMAXPOOL.h"
 #include"Neurons/NeuronVariable.h"
+#include"SeqSet.h"
 class NeuronGraph
 {
 public:
@@ -21,7 +22,8 @@ public:
 	int* trainablesIndx;	//indexes of trainables
 
 	int count;	//number of neurons in the graph
-	Neuron** sequence;	//a topological sequencing of neurons
+	Neuron** sequence;	//the array of neurons
+	vector<SeqSet*> seqSets;
 
 	void run();
 	void bp();

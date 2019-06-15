@@ -2,6 +2,7 @@
 
 NeuronMaxPool::NeuronMaxPool(int _fw, int _fh, int _pw, int _ph, int _sw, int _sh, int _il, int _ih, int _iw, int _ol, int _oh, int _ow) :fh(_fh), fw(_fw), ph(_ph), pw(_pw), sw(_sw), sh(_sh), il(_il), ih(_ih), iw(_iw), ol(_ol), oh(_oh), ow(_ow)
 {
+	ready = 0;
 	ty = MAX_POOL;
 	int i, j, k;
 	isTrain = 0;

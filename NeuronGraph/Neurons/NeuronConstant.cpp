@@ -19,6 +19,7 @@ void NeuronConst::init()
 
 NeuronConst::NeuronConst(const int _dim, ...)
 {
+	ready = 1;
 	isTrain = 0;
 	isVarInput = 0;
 	capacity = 0;

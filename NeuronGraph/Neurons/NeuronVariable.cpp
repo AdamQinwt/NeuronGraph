@@ -16,6 +16,7 @@ void NeuronVariable::init()
 
 NeuronVariable::NeuronVariable(const int _dim, ...)
 {
+	ready = 1;
 	isTrain = 1;
 	isVarInput = 0;
 	capacity = 0;

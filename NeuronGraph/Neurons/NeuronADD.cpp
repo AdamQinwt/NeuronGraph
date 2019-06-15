@@ -2,6 +2,7 @@
 
 NeuronADD::NeuronADD()
 {
+	ready = 0;
 	ty = ADD;
 	isTrain = 0;
 	isVarInput = 1;

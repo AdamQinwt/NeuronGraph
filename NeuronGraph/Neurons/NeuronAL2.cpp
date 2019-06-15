@@ -2,6 +2,7 @@
 
 NeuronAL2::NeuronAL2()
 {
+	ready = 0;
 	ty = AL2;
 	isTrain = 0;
 	isVarInput = 1;

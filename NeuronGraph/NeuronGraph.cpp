@@ -2,16 +2,24 @@
 
 void NeuronGraph::run()
 {
-	for (int i = 0; i < count; i++)
+	int i, j;
+	for (i = 0; i < seqSets.size(); i++)
 	{
-		sequence[i]->run();
+		for (j = 0; j < seqSets[i]->v.size(); j++)
+		{
+			seqSets[i]->v[j]->run();
+		}
 	}
 }
 void NeuronGraph::bp()
 {
-	for (int i = count-1; i>=0; i--)
+	int i, j;
+	for (i= seqSets.size() - 1; i >=0; i--)
 	{
-		sequence[i]->bp();
+		for (j = 0; j < seqSets[i]->v.size(); j++)
+		{
+			seqSets[i]->v[j]->bp();
+		}
 	}
 }
 void NeuronGraph::reset()
@@ -46,6 +54,10 @@ NeuronGraph::~NeuronGraph()
 		delete sequence[i];
 	}
 	delete[] sequence;
+	for (int i = 0; i < seqSets.size(); i++)
+	{
+		delete seqSets[i];
+	}
 	delete[] trainables;
 	delete[] trainablesIndx;
 }
@@ -65,7 +77,25 @@ void NeuronGraph::SetTrainables(const int c)	//在设置optimizer后，设置图中的可训
 }
 void NeuronGraph::GetSquence()
 {
-	//TODO
+	int i;
+	int finished=0;
+	seqSets.clear();
+	//Trainables and constants can run first
+	SeqSet* s = new SeqSet();
+	for (i = 0; i < count; i++)
+	{
+		if (sequence[i]->ready)
+		{
+			s->v.push_back(sequence[i]);
+			finished++;
+		}
+	}
+	seqSets.push_back(s);
+	while (finished < count)
+	{
+		s = new SeqSet(count, sequence,finished);
+		seqSets.push_back(s);
+	}
 }
 void NeuronGraph::SaveArgsBin(const char* name)
 {
