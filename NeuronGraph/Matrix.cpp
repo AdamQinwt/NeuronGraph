@@ -429,6 +429,32 @@ void Matrix::dmaxPool(const Matrix& din, pointPair*** p, int*** maxIndx)
 		}
 	}
 }
+//returns cross_entropy(this,q),this=out
+double Matrix::crossEntropy(const Matrix& ans)
+{
+	double r = 0;
+	FOR_MAT
+	{
+		r += ans.data[i] * log(data[i]) + (1 - ans.data[i])*log(1 - data[i]);
+	}
+	return -r;
+}
+//this=dcross_entropy
+void Matrix::dcrossEntropy(const Matrix& out, const Matrix& ans, double dout)
+{
+	FOR_MAT
+	{
+		data[i] = (out.data[i]- ans.data[i])/out.data[i]/(1-out.data[i]);
+	}
+}
+void Matrix::clip(const double a, const double b)
+{
+	FOR_MAT
+	{
+		if (data[i] < a) data[i] = a;
+		else if (data[i] > b) data[i] = b;
+	}
+}
 void Matrix::assignTo(const Matrix* a)	//使未进行空间分配的this的数据地址与已分配空间的a相同
 {
 	data = a->data;

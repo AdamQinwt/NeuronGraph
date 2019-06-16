@@ -14,7 +14,7 @@ void train(Optimizer* opt,Dataset* d,NeuronGraph* g,int times=100,double thresh=
 	d->Init();
 	for (iter = 0; iter < times; iter++)
 	{
-		//reset
+		//reset 
 		loss=d->DoBatch();
 		printf("After %d iterations, the loss is %lf.\n", iter, loss);
 		if (loss < thresh)
@@ -45,7 +45,8 @@ int main()
 	g->out = g->sequence[6];
 	g->sequence[7] = new NeuronConst(1, 1);
 	g->ans = g->sequence[7];
-	g->sequence[8] = new NeuronADELTA2();
+	//g->sequence[8] = new NeuronADELTA2();
+	g->sequence[8] = new NeuronCrossEntropy();
 	
 	g->loss = g->sequence[8];
 	//((NeuronADELTA2*)(g->loss))->x = 0.25;

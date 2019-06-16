@@ -89,6 +89,12 @@ public:
 	void maxPool(const Matrix& in, pointPair*** p,int*** maxIndx, int ksize);
 	//this=dout, calculate din
 	void dmaxPool(const Matrix& din, pointPair*** p,int*** maxIndx);
+	//returns cross_entropy(this,q),this=out
+	double crossEntropy(const Matrix& ans);
+	//this=dcross_entropy
+	void dcrossEntropy(const Matrix& out,const Matrix& ans,double dout);
+	//change the value of this to between a and b
+	void clip(const double a=1e-10,const double b=1-(1e-10));
 	void assignTo(const Matrix* a);	//使未进行空间分配的this的数据地址与已分配空间的a相同
 	void Print();
 	void WriteBin(FILE* fp);

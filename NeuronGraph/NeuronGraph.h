@@ -7,6 +7,7 @@
 #include"Neurons/NeuronCONV.h"
 #include"Neurons/NeuronMAXPOOL.h"
 #include"Neurons/NeuronVariable.h"
+#include"Neurons/NeuronCrossEntropy.h"
 #include"SeqSet.h"
 class NeuronGraph
 {

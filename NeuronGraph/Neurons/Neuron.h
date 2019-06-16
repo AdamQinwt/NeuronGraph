@@ -4,7 +4,7 @@
 #include"../Matrix.h"
 
 using namespace std;
-enum  type{ CONSTANT, VARIABLE,FC, ADD, AXPB, CONV, MAX_POOL, AX, AX2,AL,AL2,ADELTA2 };
+enum  type{ CONSTANT, VARIABLE,FC, ADD, AXPB, CONV, MAX_POOL, AX, AX2,AL,AL2,ADELTA2,CE };
 class Neuron
 {
 public:

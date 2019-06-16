@@ -93,6 +93,9 @@
     <ClInclude Include="SeqSet.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Neurons\NeuronCrossEntropy.h">
+      <Filter>Neurons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix.cpp">
@@ -169,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="SeqSet.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Neurons\NeuronCrossEntropy.cpp">
+      <Filter>Neurons</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
