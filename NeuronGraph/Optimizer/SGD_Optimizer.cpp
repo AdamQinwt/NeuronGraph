@@ -18,7 +18,7 @@ SGD_Optimizer::SGD_Optimizer(NeuronGraph* _g,double _learningRate, double _momen
 {
 	g = _g;
 	trainableCount = 3;
-	g->SetTrainables(trainableCount);
+	g->NeedTrainables = trainableCount;
 }
 
 

@@ -4,7 +4,7 @@ class NeuronVariable :
 	public Neuron
 {
 public:
-	NeuronVariable(const int _dim,...);
+	NeuronVariable(const int NeedAll,const int _dim,...);
 	~NeuronVariable();
 	void run();
 	void bp();

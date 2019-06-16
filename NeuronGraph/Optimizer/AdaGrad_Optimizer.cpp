@@ -20,7 +20,7 @@ AdaGrad_Optimizer::AdaGrad_Optimizer(NeuronGraph* _g, double _eps, double _del):
 {
 	g = _g;
 	trainableCount = 4;
-	g->SetTrainables(trainableCount);
+	g->NeedTrainables = trainableCount;
 }
 
 

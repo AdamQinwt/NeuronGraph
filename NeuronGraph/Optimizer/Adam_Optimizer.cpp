@@ -21,7 +21,7 @@ Adam_Optimizer::Adam_Optimizer(NeuronGraph* _g, double step, double delta, doubl
 {
 	g = _g;
 	trainableCount = 5;
-	g->SetTrainables(trainableCount);
+	g->NeedTrainables=trainableCount;
 }
 
 

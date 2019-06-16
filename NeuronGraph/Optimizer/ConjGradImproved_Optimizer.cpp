@@ -147,7 +147,7 @@ ConjGradImproved_Optimizer::ConjGradImproved_Optimizer(NeuronGraph* _g, Dataset*
 {
 	g = _g;
 	trainableCount = 8;
-	g->SetTrainables(trainableCount);
+	g->NeedTrainables=trainableCount;
 }
 
 

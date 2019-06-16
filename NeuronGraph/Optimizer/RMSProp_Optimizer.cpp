@@ -20,7 +20,7 @@ RMSProp_Optimizer::RMSProp_Optimizer(NeuronGraph* _g,double _learningRate, doubl
 {
 	g = _g;
 	trainableCount = 4;
-	g->SetTrainables(trainableCount);
+	g->NeedTrainables = trainableCount;
 }
 
 

@@ -14,12 +14,13 @@ void NeuronVariable::init()
 	//ÎÞ²Ù×÷
 }
 
-NeuronVariable::NeuronVariable(const int _dim, ...)
+NeuronVariable::NeuronVariable(const int NeedAll, const int _dim, ...)
 {
 	ready = 1;
 	isTrain = 1;
 	isVarInput = 0;
 	capacity = 0;
+	arg.cnt = NeedAll;
 	ty = VARIABLE;
 	in = nullptr;
 	out = nullptr;

@@ -74,7 +74,7 @@ ConjGrad_Optimizer::ConjGrad_Optimizer(NeuronGraph* _g, Dataset* _data, int sear
 {
 	g = _g;
 	trainableCount = 6;
-	g->SetTrainables(trainableCount);
+	g->NeedTrainables=trainableCount;
 }
 
 

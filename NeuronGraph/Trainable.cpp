@@ -2,7 +2,7 @@
 
 
 
-Trainable::Trainable()
+Trainable::Trainable():cnt(2)
 {
 }
 
